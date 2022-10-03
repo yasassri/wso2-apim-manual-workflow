@@ -35,7 +35,6 @@ on:
         type: string
 
 jobs:
-  name: Promoting API ${{inputs.apiName}}-${{inputs.apiVersion}} From ${{inputs.FromChoice}} to ${{inputs.ToChoice}}
   CheckInputs:
     name: Check User Inputs 
     runs-on: ubuntu-latest
