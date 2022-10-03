@@ -1,5 +1,5 @@
 name: Promote_APIs
-run-name: Promoting API ${{inputs.apiName}}-${{inputs.apiVersion}} From ${{inputs.FromChoice}} to ${{inputs.ToChoice}}
+run-name: Promoting API ${{inputs.apiName}}-${{inputs.apiVersion}} From [${{inputs.FromChoice}}] To [${{inputs.ToChoice}}]
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
