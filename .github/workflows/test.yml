@@ -35,12 +35,21 @@ on:
         type: string
 
 jobs:
-
+  CheckForProtectedEnv:
+    name: Check For Environment Protection
+    if: ${{ contains(inputs.ToChoice, 'prod') || contains(inputs.ToChoice, 'stage')}}
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          script: |
+            console.log('Environment checked')
+          
   ExportAPI:
     name: Export API from ${{inputs.ToChoice}}
     runs-on: ubuntu-latest
-    environment:
-      name: ${{ contains(inputs.ToChoice, 'prod') || 'prod'}}
+    needs: CheckForProtectedEnv
     steps:
       # Setup apictl
       - name: Setup APICTL
