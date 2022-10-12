@@ -54,7 +54,7 @@ jobs:
     name: Export API from ${{inputs.ToChoice}}
     runs-on: ubuntu-latest
     needs: CheckForProtectedEnv
-    environment: ${{jobs.CheckForProtectedEnv.steps.check-env.outputs.result}}
+    environment: ${{needs.CheckForProtectedEnv.steps.check-env.outputs.result}}
     steps:
       # Setup apictl
       - name: Setup APICTL
@@ -69,5 +69,5 @@ jobs:
           APIM_PASSWORD: ${{ secrets.APIM_PASSWORD }}
         run: |
           echo "Adding the environment to apictl"
-          echo "jobs.CheckForProtectedEnv.steps.check-env.outputs.result"
+          echo "${{needs.CheckForProtectedEnv.steps.check-env.outputs.result}}"
    
