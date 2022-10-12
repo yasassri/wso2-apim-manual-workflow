@@ -1,0 +1,59 @@
+name: Promote_APIs
+run-name: Promoting API ${{inputs.apiName}}-${{inputs.apiVersion}} From [${{inputs.FromChoice}}] To [${{inputs.ToChoice}}]
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      TenantChoice:
+        type: choice
+        description: Tenant
+        required: true
+        options:
+        - carbon.super
+        - ycr.com
+      FromChoice:
+        type: choice
+        description: 'From Environment'
+        required: true
+        options:
+        - dev
+        - qa
+      ToChoice:
+        type: choice
+        description: 'To Environment'
+        required: true
+        options:
+        - qa
+        - prod
+      apiName:
+        description: 'The name of the API to promoted'
+        required: true
+        type: string
+      apiVersion:
+        description: 'The version of the API to be promoted'
+        required: true
+        type: string
+
+jobs:
+
+  ExportAPI:
+    name: Export API from ${{inputs.FromChoice}}
+    runs-on: ubuntu-latest
+    needs: CheckInputs
+    environment:
+      name: ${{ contains(inputs.FromChoice, 'dev') || 'prod'}}
+    steps:
+      # Setup apictl
+      - name: Setup APICTL
+        uses: yasassri/setup-wso2-apictl@v1.2
+        with:
+          version: '4.1.0'
+
+      - name: Export API from ${{inputs.FromChoice}}
+        env:
+          APIM_URL: ${{ secrets.APIM_URL }}
+          APIM_USER: ${{ secrets.APIM_USER }}
+          APIM_PASSWORD: ${{ secrets.APIM_PASSWORD }}
+        run: |
+          echo "Adding the environment to apictl"
+   
