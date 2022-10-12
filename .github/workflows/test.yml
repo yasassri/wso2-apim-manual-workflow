@@ -37,14 +37,18 @@ on:
 jobs:
   CheckForProtectedEnv:
     name: Check For Environment Protection
-    if: ${{ contains(inputs.ToChoice, 'prod') || contains(inputs.ToChoice, 'stage')}}
-    environment: prod
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v6
+        id: check-env
         with:
+          result-encoding: string
           script: |
-            console.log('Environment checked')
+            if(${{inputs.ToChoice}}.toLowerCase().includes("prod") || ${{inputs.ToChoice}}.toLowerCase().includes("stage")) {
+              return "protected"
+            } esle {
+              return "non-protected"
+            }
           
   ExportAPI:
     name: Export API from ${{inputs.ToChoice}}
@@ -64,4 +68,5 @@ jobs:
           APIM_PASSWORD: ${{ secrets.APIM_PASSWORD }}
         run: |
           echo "Adding the environment to apictl"
+          echo "jobs.CheckForProtectedEnv.steps.check-env.outputs.result"
    
