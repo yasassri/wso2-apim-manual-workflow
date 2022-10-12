@@ -44,9 +44,9 @@ jobs:
         with:
           result-encoding: string
           script: |
-            if(${{inputs.ToChoice}}.toLowerCase().includes("prod") || ${{inputs.ToChoice}}.toLowerCase().includes("stage")) {
+            if("${{inputs.ToChoice}}".toLowerCase().includes("prod") || "${{inputs.ToChoice}}".toLowerCase().includes("stage")) {
               return "protected"
-            } esle {
+            } else {
               return "non-protected"
             }
           
