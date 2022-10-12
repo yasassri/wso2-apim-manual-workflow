@@ -37,11 +37,11 @@ on:
 jobs:
 
   ExportAPI:
-    name: Export API from ${{inputs.FromChoice}}
+    name: Export API from ${{inputs.ToChoice}}
     runs-on: ubuntu-latest
     needs: CheckInputs
     environment:
-      name: ${{ contains(inputs.FromChoice, 'dev') || 'prod'}}
+      name: ${{ contains(inputs.ToChoice, 'prod') || 'prod'}}
     steps:
       # Setup apictl
       - name: Setup APICTL
