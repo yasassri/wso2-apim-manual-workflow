@@ -39,7 +39,6 @@ jobs:
   ExportAPI:
     name: Export API from ${{inputs.ToChoice}}
     runs-on: ubuntu-latest
-    needs: CheckInputs
     environment:
       name: ${{ contains(inputs.ToChoice, 'prod') || 'prod'}}
     steps:
