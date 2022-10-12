@@ -38,6 +38,8 @@ jobs:
   CheckForProtectedEnv:
     name: Check For Environment Protection
     runs-on: ubuntu-latest
+    outputs:
+      envName: ${{ steps.check-env.outputs.result }}
     steps:
       - uses: actions/github-script@v6
         id: check-env
@@ -54,7 +56,7 @@ jobs:
     name: Export API from ${{inputs.ToChoice}}
     runs-on: ubuntu-latest
     needs: CheckForProtectedEnv
-    environment: ${{needs.CheckForProtectedEnv.steps.check-env.outputs.result}}
+    environment: ${{needs.CheckForProtectedEnv.outputs.envName}}
     steps:
       # Setup apictl
       - name: Setup APICTL
@@ -69,5 +71,5 @@ jobs:
           APIM_PASSWORD: ${{ secrets.APIM_PASSWORD }}
         run: |
           echo "Adding the environment to apictl"
-          echo "${{needs.CheckForProtectedEnv.steps.check-env.outputs.result}}"
+          echo "${{needs.CheckForProtectedEnv.outputs.envName}}"
    
